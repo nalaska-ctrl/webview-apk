@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        startWebView("https://ap-iwa.com/ProMobileV3"); // Update me to the URL
+        startWebView("https://ap-iwa.com/ap-kiosk/?tenant=d6b77a93-417b-4b4f-a0b8-f7b8e53dcfd4"); // Update me to the URL
     }
 
     @Override
