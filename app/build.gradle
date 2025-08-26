@@ -7,7 +7,7 @@ android {
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.support.mason.btm_pro_mobileV3"
+        applicationId "com.support.mason.btm_kiosk_perry"
         minSdk 25
         targetSdk 34
         versionCode 1
