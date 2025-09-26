@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.CAMERA}, CAMERA_REQUEST_CODE);
         }
-        startWebView("https://ap-iwa.com/ap-kiosk/?tenant=d6b77a93-417b-4b4f-a0b8-f7b8e53dcfd4");
+        startWebView("https://ap-iwa.com/ap-kiosk/?tenant=d9f3a2b7-6c4e-4f1a-9b2e-3e7f5c8a1d42");
     }
 
     @Override
