@@ -1,6 +1,11 @@
 package com.support.webapp_to_webview;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.view.View;
 import android.webkit.PermissionRequest;
 import android.webkit.WebChromeClient;
@@ -10,17 +15,24 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+import android.webkit.CookieManager;
+
 
 
 public class MainActivity extends AppCompatActivity {
     private WebView myWebView;
     ProgressBar progressBar;
-
+    private static final int CAMERA_REQUEST_CODE = 100;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        startWebView("https://ap-iwa.com/ap-kiosk/?tenant=d6b77a93-417b-4b4f-a0b8-f7b8e53dcfd4"); // Update me to the URL
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.CAMERA}, CAMERA_REQUEST_CODE);
+        }
+        startWebView("https://ap-iwa.com/ap-kiosk/?tenant=d6b77a93-417b-4b4f-a0b8-f7b8e53dcfd4");
     }
 
     @Override
@@ -40,6 +52,15 @@ public class MainActivity extends AppCompatActivity {
         myWebView= findViewById(R.id.webview);
         WebSettings webSettings=myWebView.getSettings();
         webSettings.setJavaScriptEnabled(true);
+        webSettings.setDomStorageEnabled(true);   // <--- add this
+        webSettings.setDatabaseEnabled(true);     // <--- add this
+        webSettings.setCacheMode(WebSettings.LOAD_DEFAULT);
+        webSettings.setMediaPlaybackRequiresUserGesture(false);
+
+        // Allow cookies
+        CookieManager cookieManager = CookieManager.getInstance();
+        cookieManager.setAcceptCookie(true);
+        cookieManager.setAcceptThirdPartyCookies(myWebView, true);
         myWebView.getSettings().setMediaPlaybackRequiresUserGesture(false);
 
         myWebView.setWebChromeClient(new WebChromeClient() {
