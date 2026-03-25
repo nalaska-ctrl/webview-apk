@@ -82,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
                 if (progressBar.isShown()) {
                     progressBar.setVisibility(View.GONE);
                 }
+                suppressVirtualKeyboard(view);
             }
 
             @Override
@@ -91,6 +92,26 @@ public class MainActivity extends AppCompatActivity {
 
         });
         myWebView.loadUrl(url);
+    }
+
+    private void suppressVirtualKeyboard(WebView view) {
+        String js =
+                "(function() {" +
+                        "  function noKeyboard(el) {" +
+                        "    el.setAttribute('inputmode', 'none');" +
+                        "  }" +
+                        "  document.querySelectorAll('input, textarea').forEach(noKeyboard);" +
+                        "  new MutationObserver(function(mutations) {" +
+                        "    mutations.forEach(function(m) {" +
+                        "      m.addedNodes.forEach(function(n) {" +
+                        "        if (n.nodeType !== 1) return;" +
+                        "        if (n.matches('input, textarea')) noKeyboard(n);" +
+                        "        n.querySelectorAll('input, textarea').forEach(noKeyboard);" +
+                        "      });" +
+                        "    });" +
+                        "  }).observe(document.documentElement, { childList: true, subtree: true });" +
+                        "})();";
+        view.evaluateJavascript(js, null);
     }
 }
 
